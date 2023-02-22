@@ -22,6 +22,7 @@ import * as blogService from "./services/blogService"
 const App = () => {
   const navigate = useNavigate()
   const [user, setUser] = useState(authService.getUser())
+  const [blogs, setBlogs] = useState([])
 
   const handleLogout = () => {
     setUser(null)
@@ -34,12 +35,12 @@ const App = () => {
   }
 
   useEffect(() => {
-const fetchAllBlogs=async()=>{
-  const data= await blogService.index()
-  console.log(data);
-}
-fetchAllBlogs()
-  },[])
+    const fetchAllBlogs = async () => {
+      const data = await blogService.index()
+      setBlogs(data)
+    }
+    fetchAllBlogs()
+  }, [user])
 
   return (
     <>
