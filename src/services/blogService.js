@@ -59,4 +59,19 @@ const update = async (blogData) => {
   }
 }
 
-export { index, show, create ,update}
+const deleteBlog = async (id) => {
+  try {
+    const res = await fetch(`${BASE_URL}/${id}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${tokenService.getToken()}`,
+        "Content-Type": "application/json",
+      },
+    })
+    return res.json()
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export { index, show, create, update, deleteBlog as delete }

@@ -53,9 +53,15 @@ const App = () => {
   const handleUpdateBlog = async (blogData) => {
     const updatedBlog = await blogService.update(blogData)
     const updatedBlogsData = blogs.map((blog) => {
-      return blogData._id === blog.id ? updatedBlog : blog
+      return blogData._id === blog._id ? updatedBlog : blog
     })
     setBlogs(updatedBlogsData)
+    navigate("/blogs")
+  }
+
+  const handleDeleteBlog = async (id) => {
+    const deletedBlog = await blogService.delete(id)
+    setBlogs(blogs.filter((blog) => blog._id !== deletedBlog._id))
     navigate("/blogs")
   }
 
@@ -94,7 +100,7 @@ const App = () => {
           path="/blogs"
           element={
             <ProtectedRoute user={user}>
-              <BlogList blogs={blogs} />
+              <BlogList blogs={blogs}  />
             </ProtectedRoute>
           }
         />
@@ -102,7 +108,7 @@ const App = () => {
           path="/blogs/:id"
           element={
             <ProtectedRoute user={user}>
-              <BlogDetails user={user} />
+              <BlogDetails user={user} handleDeleteBlog={handleDeleteBlog}/>
             </ProtectedRoute>
           }
         />

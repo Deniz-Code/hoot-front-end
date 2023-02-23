@@ -39,7 +39,9 @@ const BlogDetails = (props) => {
                 <Link to={`/blogs/${id}/edit`} state={blog}>
                   Edit
                 </Link>
-                <button>Delete</button>
+                <button onClick={() => props.handleDeleteBlog(id)}>
+                  Delete
+                </button>
               </>
             )}
           </span>
