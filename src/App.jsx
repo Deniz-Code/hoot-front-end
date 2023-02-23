@@ -11,6 +11,7 @@ import Profiles from "./pages/Profiles/Profiles"
 import ChangePassword from "./pages/ChangePassword/ChangePassword"
 import BlogList from "./pages/BlogList/BlogList"
 import BlogDetails from "./pages/BlogDetails/BlogDetails"
+import NewBlog from "./pages/NewBlog/NewBlog"
 // Components
 import NavBar from "./components/NavBar/NavBar"
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute"
@@ -38,10 +39,15 @@ const App = () => {
     const fetchAllBlogs = async () => {
       const data = await blogService.index()
       setBlogs(data)
-      console.log(data)
     }
     if (user) fetchAllBlogs()
   }, [user])
+
+  const handleAddBlog = async (blogData) => {
+    const newBlog = await blogService.create(blogData)
+    setBlogs([newBlog, ...blogs])
+    navigate("/blogs")
+  }
 
   return (
     <>
@@ -87,6 +93,14 @@ const App = () => {
           element={
             <ProtectedRoute user={user}>
               <BlogDetails user={user} />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/blogs/new"
+          element={
+            <ProtectedRoute user={user}>
+              <NewBlog handleAddBlog={handleAddBlog} />
             </ProtectedRoute>
           }
         />

@@ -21,7 +21,26 @@ const show = async (id) => {
       headers: { Authorization: `Bearer ${tokenService.getToken()}` },
     })
     return res.json()
-  } catch (error) {}
+  } catch (error) {
+    console.log(error)
+  }
 }
 
-export { index,show }
+const create = async (blogData) => {
+  try {
+    //POST LOCALHOST:3001/api/blogs
+    const res = await fetch(BASE_URL, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${tokenService.getToken()}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(blogData),
+    })
+    return res.json()
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export { index, show, create }
