@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
 
-import { useParams } from "react-router-dom"
+import { Link, useParams } from "react-router-dom"
 
 import styles from "./BlogDetails.module.css"
 
@@ -33,6 +33,15 @@ const BlogDetails = (props) => {
           </h3>
           <span>
             <AuthorInfo content={blog} />
+            {/* when && the last truthy value is returned */}
+            {blog.author._id === props.user.profile && (
+              <>
+                <Link to={`/blogs/${id}/edit`} state={blog}>
+                  Edit
+                </Link>
+                <button>Delete</button>
+              </>
+            )}
           </span>
         </header>
         <p>{blog.text}</p>

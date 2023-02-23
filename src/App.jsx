@@ -12,6 +12,7 @@ import ChangePassword from "./pages/ChangePassword/ChangePassword"
 import BlogList from "./pages/BlogList/BlogList"
 import BlogDetails from "./pages/BlogDetails/BlogDetails"
 import NewBlog from "./pages/NewBlog/NewBlog"
+import EditBlog from "./pages/EditBlog/EditBlog"
 // Components
 import NavBar from "./components/NavBar/NavBar"
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute"
@@ -46,6 +47,15 @@ const App = () => {
   const handleAddBlog = async (blogData) => {
     const newBlog = await blogService.create(blogData)
     setBlogs([newBlog, ...blogs])
+    navigate("/blogs")
+  }
+
+  const handleUpdateBlog = async (blogData) => {
+    const updatedBlog = await blogService.update(blogData)
+    const updatedBlogsData = blogs.map((blog) => {
+      return blogData._id === blog.id ? updatedBlog : blog
+    })
+    setBlogs(updatedBlogsData)
     navigate("/blogs")
   }
 
@@ -101,6 +111,14 @@ const App = () => {
           element={
             <ProtectedRoute user={user}>
               <NewBlog handleAddBlog={handleAddBlog} />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/blogs/:id/edit"
+          element={
+            <ProtectedRoute user={user}>
+              <EditBlog handleUpdateBlog={handleUpdateBlog} />
             </ProtectedRoute>
           }
         />
